@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
 
 import { config } from './config';
+import { Routes } from './routes';
 
 export class PublicChatServer {
     app: Express;
@@ -15,7 +16,7 @@ export class PublicChatServer {
     }
 
     private router() {
-        this.app.use('/', (req, res) => res.send("HELLO"))
+        Routes(this.app);
     }
 
     private standardMiddleWare() {
