@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+import cors from 'cors';
 
 import { config } from './config';
 import { Routes } from './routes';
@@ -23,7 +24,10 @@ export class PublicChatServer {
     }
 
     private securityMiddleWare() {
-
+        this.app.use(cors({
+            origin: '*',
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+        }));
     }
 
     public start() {
