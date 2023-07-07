@@ -14,9 +14,8 @@ class AuthModel extends RedisBase {
         this.verifyConnection();
 
         const { userId, password } = authData;
-        await this.client.HSET(`usernameToID`, username, userId);
-        await this.client.HSET('auth', 'userId', userId);
-        await this.client.HSET('auth', 'password', password);
+        await this.client.HSET(`usernameToID:${username}`, 'userId', userId);
+        await this.client.HSET(`auth:${userId}`, 'password', password);
     }
 
     /**
@@ -24,8 +23,8 @@ class AuthModel extends RedisBase {
      */
     public async authExists(username: string): Promise<boolean> {
         this.verifyConnection();
-        
-        return await this.client.HEXISTS(`usernameToId`, username);
+        const usernameExists = await this.client.HEXISTS(`usernameToID:${username}`, 'userId');
+        return usernameExists;
     }
 }
 

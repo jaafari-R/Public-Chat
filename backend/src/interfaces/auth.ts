@@ -1,4 +1,4 @@
 export interface Auth {
-    userId: number;
+    userId: string;
     password: string;
 }
