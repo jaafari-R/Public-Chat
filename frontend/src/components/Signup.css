@@ -1,0 +1,25 @@
+.signup {
+    padding-inline: 20%;
+    padding-top: 10%;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    border: 3px solid #888;
+    border-radius: 1em;
+}
+
+.signup-form > input, .signup-form > button {
+    margin-bottom: 1em;
+    padding: 1em;
+    border-radius: 1em;
+    text-align: center;
+}
+
+.signup-form > button {
+    background-color: rgb(71, 153, 230);
+    border-radius: 0;
+    margin-top: 1em;
+}
