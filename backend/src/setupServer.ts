@@ -9,10 +9,9 @@ export class PublicChatServer {
     constructor() {
         this.app = express();
 
-        this.router();
         this.standardMiddleWare();
         this.securityMiddleWare();
-
+        this.router();
     }
 
     private router() {
@@ -20,7 +19,7 @@ export class PublicChatServer {
     }
 
     private standardMiddleWare() {
-
+        this.app.use(express.json());
     }
 
     private securityMiddleWare() {

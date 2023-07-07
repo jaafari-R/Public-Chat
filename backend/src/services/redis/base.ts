@@ -9,4 +9,10 @@ export abstract class RedisBase {
     constructor() {
         this.client = createClient({ url: config.REDIS_URL });
     }
+
+    protected async verifyConnection(): Promise<void> {
+        if(!this.client.isOpen) {
+            this.client.connect();
+        }
+    }
 }
