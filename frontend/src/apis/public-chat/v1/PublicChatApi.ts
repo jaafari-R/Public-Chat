@@ -18,6 +18,13 @@ class PublicChatApi {
     public async registerUser(username: string, password: string): Promise<void> {
         const response = await this.api.post('/signup', { username, password });
     }
+
+    /**
+     * 
+     */
+    public async login(username: string, password: string): Promise<void> {
+        const response = await this.api.post('/signin', { username, password });
+    }
 }
 
 export const publicChatApi = new PublicChatApi();
