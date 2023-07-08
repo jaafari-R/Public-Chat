@@ -15,7 +15,7 @@ export class SignUp {
         const userExists: boolean = await authModel.authExists(username);
         if(userExists) {
             console.log(`user "${username}" already exists`);
-            res.send("FAIL");
+            res.status(409).json({ success: false, msg: 'Uername is already used' });
             return;
         }
 
@@ -47,7 +47,7 @@ export class SignUp {
                 maxAge: 24 * 60 * 60 * 1000
             });
 
-            res.send('Successfully created an account! :)');
+            res.status(200).json({ success: true, username });
         })
     }
 }
