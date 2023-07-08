@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import { config } from './config';
 import { Routes } from './routes';
@@ -25,9 +26,12 @@ export class PublicChatServer {
 
     private securityMiddleWare() {
         this.app.use(cors({
-            origin: '*',
+            origin: 'http://127.0.0.1:3000',
+            credentials: true,
+            optionsSuccessStatus: 200,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
         }));
+        this.app.use(cookieParser());
     }
 
     public start() {

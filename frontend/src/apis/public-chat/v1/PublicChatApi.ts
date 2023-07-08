@@ -7,7 +7,8 @@ class PublicChatApi {
 
     constructor() {
         this.api = axios.create({
-            baseURL: BASE_URL
+            baseURL: BASE_URL,
+            withCredentials: true
         });
     }
 
