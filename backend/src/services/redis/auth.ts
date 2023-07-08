@@ -8,9 +8,9 @@ class AuthModel extends RedisBase {
     }
 
     /**
-     * Save new user password to Redis
+     * Create new user auth to Redis
      */
-    public async saveUserAuth(authData: Auth, username: string) {
+    public async createUserAuth(authData: Auth, username: string) {
         this.verifyConnection();
 
         const { userId, password } = authData;

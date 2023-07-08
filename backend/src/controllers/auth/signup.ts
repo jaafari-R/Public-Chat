@@ -5,6 +5,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import { authModel } from "../../services/redis/auth";
 import { Auth } from "../../interfaces/auth";
 import { config } from "../../config";
+import { userModel } from "../../services/redis/user";
+import { User } from "../../interfaces/user";
 
 export class SignUp {
     public async create(req: Request, res: Response): Promise<void> {
@@ -23,11 +25,14 @@ export class SignUp {
             userId,
             password
         };
-
-        authModel.saveUserAuth(authData, username);
+        authModel.createUserAuth(authData, username);
 
         /* Create new User */
-
+        const userData: User = {
+            userId,
+            username
+        }
+        userModel.createUser(userData);
 
         /* Create JWT and set it as cookie */
         jwt.sign({ username }, config.JWT_SECRET, { algorithm: 'HS512', expiresIn: '1d'}, (err, token) => {
