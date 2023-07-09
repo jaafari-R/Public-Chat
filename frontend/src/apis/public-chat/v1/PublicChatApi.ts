@@ -1,5 +1,6 @@
 import axios, { Axios } from 'axios';
 import { PublicChatApiUtils } from '../PublicChatApiUtils';
+import { RegisterResponse } from './interfaces/registerResponse';
 
 const BASE_URL = 'http://127.0.0.1:5000/api/v1';
 
@@ -16,9 +17,10 @@ class PublicChatApi {
     /**
      * 
      */
-    public async registerUser(username: string, password: string): Promise<void> {
+    public async registerUser(username: string, password: string): Promise<RegisterResponse> {
         const hashedPassword: string = await PublicChatApiUtils.prototype.hashPassword(password);
         const response = await this.api.post('/signup', { username, password: hashedPassword });
+        return response.data as RegisterResponse;
     }
 
     /**

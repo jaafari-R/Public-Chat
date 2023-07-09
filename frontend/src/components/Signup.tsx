@@ -1,25 +1,34 @@
 import './Signup.css';
 
 import { Dispatch, SetStateAction, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import { publicChatApi } from '../apis/public-chat/v1/PublicChatApi';
 
 function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   }
 
-  const signup = (e: any) => {
+  const signup = async (e: any): Promise<void> => {
     e.preventDefault();
-    publicChatApi.registerUser(username, password);
+    const response = await publicChatApi.registerUser(username, password);
+    if(!response.success) {
+      console.log(response.msg);
+      return;
+    }
+    setLoggedIn(true);
   }
 
   return (
     <div className='signup'>
+      {/* Go to chat if logged in */}
+      {loggedIn && <Navigate to='/' />}
+
       <form className='signup-form' action="">
         <input onChange={handleChange(setUsername)} value={username} type="text" placeholder='Username'/>
         <input onChange={handleChange(setPassword)} value={password} type="text" placeholder='Password'/>
