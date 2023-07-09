@@ -1,4 +1,5 @@
 import axios, { Axios } from 'axios';
+import { PublicChatApiUtils } from '../PublicChatApiUtils';
 
 const BASE_URL = 'http://127.0.0.1:5000/api/v1';
 
@@ -16,14 +17,16 @@ class PublicChatApi {
      * 
      */
     public async registerUser(username: string, password: string): Promise<void> {
-        const response = await this.api.post('/signup', { username, password });
+        const hashedPassword: string = await PublicChatApiUtils.prototype.hashPassword(password);
+        const response = await this.api.post('/signup', { username, password: hashedPassword });
     }
 
     /**
      * 
      */
     public async login(username: string, password: string): Promise<void> {
-        const response = await this.api.post('/signin', { username, password });
+        const hashedPassword: string = await PublicChatApiUtils.prototype.hashPassword(password);
+        const response = await this.api.post('/signin', { username, password: hashedPassword });
     }
 }
 
