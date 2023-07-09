@@ -1,5 +1,8 @@
+import { hash } from "bcrypt";
 import { Auth } from "../../interfaces/auth";
 import { RedisBase } from "./base";
+
+const SALT_ROUNDS = 12;
 
 class AuthModel extends RedisBase {
     constructor() {
@@ -14,8 +17,10 @@ class AuthModel extends RedisBase {
         this.verifyConnection();
 
         const { userId, password } = authData;
+        const hashedPassword = await this.hashPassword(password);
+
         await this.client.HSET(`usernameToID:${username}`, 'userId', userId);
-        await this.client.HSET(`auth:${userId}`, 'password', password);
+        await this.client.HSET(`auth:${userId}`, 'password', hashedPassword);
     }
 
     /**
@@ -25,6 +30,11 @@ class AuthModel extends RedisBase {
         this.verifyConnection();
         const usernameExists = await this.client.HEXISTS(`usernameToID:${username}`, 'userId');
         return usernameExists;
+    }
+
+    private async hashPassword(password: string): Promise<string> {
+        const hashedPassword = await hash(password, SALT_ROUNDS)
+        return hashedPassword;
     }
 }
 
