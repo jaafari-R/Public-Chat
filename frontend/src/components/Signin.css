@@ -28,3 +28,7 @@
 .signin-form > button:hover {
     background-color: rgb(7, 158, 88);
 }
+
+.signin-form > p {
+    margin: auto;
+}

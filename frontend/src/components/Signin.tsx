@@ -4,18 +4,26 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { publicChatApi } from '../apis/public-chat/v1/PublicChatApi';
 import { Link } from 'react-router-dom';
+import { SetLoggedUsername } from '../interfaces/appProps';
 
-function Signin() {
+function Signin( props: SetLoggedUsername ) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
   }
 
-  const signin = (e: any) => {
+  const signin = async (e: any) => {
     e.preventDefault();
-    publicChatApi.login(username, password);
+    const response = await publicChatApi.login(username, password);
+    if(!response.success) {
+      console.log(response.msg);
+      return;
+    }
+    props.setLoggedUsername(username);
+    setLoggedIn(true);
   }
 
   return (

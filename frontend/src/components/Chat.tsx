@@ -1,8 +1,9 @@
+import { LoggedUsername } from '../interfaces/appProps';
 import './Chat.css';
 
-function Chat() {
+function Chat( props: LoggedUsername ) {
   return (
-    <div>Chat</div>
+    <div> {props.loggedUsername} </div>
   )
 }
 

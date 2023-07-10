@@ -4,8 +4,9 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { publicChatApi } from '../apis/public-chat/v1/PublicChatApi';
+import { SetLoggedUsername } from '../interfaces/appProps';
 
-function Signup() {
+function Signup( props: SetLoggedUsername ) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loggedIn, setLoggedIn] = useState(false);
@@ -21,6 +22,7 @@ function Signup() {
       console.log(response.msg);
       return;
     }
+    props.setLoggedUsername(username);
     setLoggedIn(true);
   }
 
