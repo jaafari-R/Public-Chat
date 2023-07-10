@@ -13,7 +13,7 @@ class AuthModel extends RedisBase {
     /**
      * Create new user auth to Redis
      */
-    public async createUserAuth(authData: Auth, username: string) {
+    public async createUserAuth(authData: Auth, username: string): Promise<void> {
         this.verifyConnection();
 
         const { userId, password } = authData;
@@ -43,11 +43,21 @@ class AuthModel extends RedisBase {
         return passwordMatch;
     }
 
-    public async getUserIdByUsername(username: string) {
+    public async getUserIdByUsername(username: string): Promise<string> {
         this.verifyConnection();
         const userId: string = await this.client.HGET(`usernameToID:${username}`, 'userId') || '';
         return userId;
-    }    
+    }
+
+    public async storeInvalidToken(): Promise<void> {
+
+    }
+
+    public async tokenInvalid(token: string, username: string): Promise<boolean> {
+        this.verifyConnection()
+        const invalidToken = await this.client.SISMEMBER(`invalidJWT:${username}`, token);
+        return invalidToken;
+    }
 
     private async hashPassword(password: string): Promise<string> {
         const hashedPassword = await hash(password, SALT_ROUNDS)
