@@ -3,7 +3,7 @@ import './Signin.css';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import { publicChatApi } from '../apis/public-chat/v1/PublicChatApi';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { SetLoggedUsername } from '../interfaces/appProps';
 
 function Signin( props: SetLoggedUsername ) {
@@ -22,12 +22,15 @@ function Signin( props: SetLoggedUsername ) {
       console.log(response.msg);
       return;
     }
-    props.setLoggedUsername(username);
+    response.username && props.setLoggedUsername(response.username);
     setLoggedIn(true);
   }
 
   return (
     <div className='signin'>
+      {/* Go to chat if logged in */}
+      {loggedIn && <Navigate to='/' />}
+
       <form className='signin-form' action="">
         <input onChange={handleChange(setUsername)} value={username} type="text" placeholder='Username'/>
         <input onChange={handleChange(setPassword)} value={password} type="text" placeholder='Password'/>

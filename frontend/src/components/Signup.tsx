@@ -22,7 +22,7 @@ function Signup( props: SetLoggedUsername ) {
       console.log(response.msg);
       return;
     }
-    props.setLoggedUsername(username);
+    response.username && props.setLoggedUsername(response.username);
     setLoggedIn(true);
   }
 

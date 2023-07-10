@@ -1,9 +1,15 @@
+import { Navigate } from 'react-router-dom';
 import { LoggedUsername } from '../interfaces/appProps';
 import './Chat.css';
 
 function Chat( props: LoggedUsername ) {
+  const username = props.loggedUsername;
+
   return (
-    <div> {props.loggedUsername} </div>
+    <div> 
+      {username === '' && <Navigate to='/signin'/>}
+      {username} 
+    </div>
   )
 }
 
