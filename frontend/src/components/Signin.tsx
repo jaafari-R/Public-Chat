@@ -4,12 +4,11 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import { publicChatApi } from '../apis/public-chat/v1/PublicChatApi';
 import { Link, Navigate } from 'react-router-dom';
-import { SetLoggedUsername } from '../interfaces/appProps';
+import { Username } from '../interfaces/appProps';
 
-function Signin( props: SetLoggedUsername ) {
+function Signin( props: Username ) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleChange = (setState: Dispatch<SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(e.target.value);
@@ -23,13 +22,12 @@ function Signin( props: SetLoggedUsername ) {
       return;
     }
     response.username && props.setLoggedUsername(response.username);
-    setLoggedIn(true);
   }
 
   return (
     <div className='signin'>
       {/* Go to chat if logged in */}
-      {loggedIn && <Navigate to='/' />}
+      {props.loggedUsername && <Navigate to='/' />}
 
       <form className='signin-form' action="">
         <input onChange={handleChange(setUsername)} value={username} type="text" placeholder='Username'/>

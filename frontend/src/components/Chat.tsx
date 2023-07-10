@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
-import { LoggedUsername } from '../interfaces/appProps';
+import { Username } from '../interfaces/appProps';
 import './Chat.css';
 
-function Chat( props: LoggedUsername ) {
+function Chat( props: Username ) {
   const username = props.loggedUsername;
 
   return (

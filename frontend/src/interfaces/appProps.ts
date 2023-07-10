@@ -1,7 +1,4 @@
-export interface SetLoggedUsername {
-    setLoggedUsername: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export interface LoggedUsername {
+export interface Username {
     loggedUsername: string;
+    setLoggedUsername: React.Dispatch<React.SetStateAction<string>>;
 }

@@ -15,11 +15,11 @@ function App() {
       <div className="App">
         <Routes>
           {/* SignUp */}
-          <Route path="/signup" element={<Signup setLoggedUsername={setLoggedUsername} />} />
+          <Route path="/signup" element={<Signup loggedUsername={loggedUsername} setLoggedUsername={setLoggedUsername} />} />
           {/* SignIn */}
-          <Route path="signin" element={<Signin setLoggedUsername={setLoggedUsername} />} />
+          <Route path="signin" element={<Signin loggedUsername={loggedUsername} setLoggedUsername={setLoggedUsername} />} />
           {/* Chat */}
-          <Route path="/" element={<Chat loggedUsername={loggedUsername} />} />
+          <Route path="/" element={<Chat loggedUsername={loggedUsername} setLoggedUsername={setLoggedUsername} />} />
         </Routes>
       </div>
     </Router>
