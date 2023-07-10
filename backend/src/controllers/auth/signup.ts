@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import crypto from 'crypto';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 import { authModel } from "../../services/redis/auth";
 import { Auth } from "../../interfaces/auth";
@@ -47,7 +47,10 @@ export class SignUp {
                 maxAge: 24 * 60 * 60 * 1000
             });
 
-            res.status(200).json({ success: true, username });
-        })
+            res.status(200).json({
+                success: true,
+                username 
+            });
+        });
     }
 }

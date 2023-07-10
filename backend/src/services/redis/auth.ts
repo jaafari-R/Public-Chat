@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { compare, hash } from "bcrypt";
 import { Auth } from "../../interfaces/auth";
 import { RedisBase } from "./base";
 
@@ -31,6 +31,23 @@ class AuthModel extends RedisBase {
         const usernameExists = await this.client.HEXISTS(`usernameToID:${username}`, 'userId');
         return usernameExists;
     }
+
+    /**
+     * return true if the password matches the username, false otherwise
+     */
+    public async comparePassword(authData: Auth): Promise<boolean>{
+        this.verifyConnection();
+        const { userId, password } = authData;
+        const hashedPassword: string = await this.client.HGET(`auth:${userId}`, 'password') || '';
+        const passwordMatch: boolean = await compare(password, hashedPassword);
+        return passwordMatch;
+    }
+
+    public async getUserIdByUsername(username: string) {
+        this.verifyConnection();
+        const userId: string = await this.client.HGET(`usernameToID:${username}`, 'userId') || '';
+        return userId;
+    }    
 
     private async hashPassword(password: string): Promise<string> {
         const hashedPassword = await hash(password, SALT_ROUNDS)
