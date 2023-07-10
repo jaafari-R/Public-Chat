@@ -32,6 +32,14 @@ class PublicChatApi {
         const response = await this.api.post('/signin', { username, password: hashedPassword });
         return response.data as LoginResponse;
     }
+
+    /**
+     * 
+     */
+    public async verifyJWT(): Promise<LoginResponse> {
+        const response = await this.api.post('/verifyjwt');
+        return response.data as LoginResponse;
+    }
 }
 
 export const publicChatApi = new PublicChatApi();

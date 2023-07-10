@@ -5,7 +5,7 @@ import { config } from "../../config";
 
 export class VerifyJWT {
     public async verifyToken(req: Request, res: Response): Promise<void> {
-        const { token } = req.cookies.token;
+        const token = req.cookies.token;
 
         // verify token
         try {
@@ -22,6 +22,7 @@ export class VerifyJWT {
             res.status(200).send({ success: true, username });
         }
         catch (error) {
+            console.log(error);
             res.status(401).send({success: false, msg: 'Invalid Token'});
         }
     }
