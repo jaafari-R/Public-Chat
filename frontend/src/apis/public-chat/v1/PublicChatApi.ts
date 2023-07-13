@@ -2,9 +2,11 @@ import axios, { Axios } from 'axios';
 import { PublicChatApiUtils } from '../PublicChatApiUtils';
 import { RegisterResponse } from './interfaces/registerResponse';
 import { LoginResponse } from './interfaces/loginResponse';
+import { NewMsgResponse } from './interfaces/sendMessage';
 
 const BASE_URL = 'http://127.0.0.1:5000/api/v1';
 
+/* TODO add error handling */
 class PublicChatApi {
     api: Axios;
 
@@ -39,6 +41,14 @@ class PublicChatApi {
     public async verifyJWT(): Promise<LoginResponse> {
         const response = await this.api.post('/verifyjwt');
         return response.data as LoginResponse;
+    }
+
+    /**
+     * 
+     */
+    public async sendMessage(message: string): Promise<NewMsgResponse> {
+        const response = await this.api.post('/chat/send', { message });
+        return response.data as NewMsgResponse;
     }
 }
 

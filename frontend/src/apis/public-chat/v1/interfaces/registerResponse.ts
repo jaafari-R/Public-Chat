@@ -5,6 +5,5 @@ import { Response } from "./response";
  * username exists only if success is true
  */
 export interface RegisterResponse extends Response {
-    msg?: string;
     username?: string;
 }
