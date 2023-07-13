@@ -1,4 +1,4 @@
-export interface Messsage {
+export interface Message {
     senderId: string;
     content: string;
     createdAt: Date;
