@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 
 import { config } from './config';
 import { Routes } from './routes';
+import { authMiddleware } from './middleware/auth';
 
 export class PublicChatServer {
     app: Express;
@@ -32,6 +33,7 @@ export class PublicChatServer {
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
         }));
         this.app.use(cookieParser());
+        this.app.use(authMiddleware);
     }
 
     public start() {

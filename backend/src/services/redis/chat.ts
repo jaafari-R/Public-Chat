@@ -6,7 +6,7 @@ class ChatModel extends RedisBase {
         super();
     }
 
-    public async createMessage(messageData: Message) {
+    public async createMessage(messageData: Message): Promise<void> {
         this.verifyConnection();
 
         const { senderId, content, createdAt } = messageData;
