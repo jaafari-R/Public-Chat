@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { chatModel } from "../../services/redis/chat";
-import { Message } from "../../interfaces/message";
+import { ResponseMessage } from "../../interfaces/message";
 
 
 export class GetMessages {
@@ -17,7 +17,7 @@ export class GetMessages {
 
         /* get last 30 messages before the message with id lastMessageId */
         const firstMessageId = Math.max(Number(lastMessageId) - 29, 0); 
-        const messages: Message[] = await chatModel.getMessages(firstMessageId, Number(lastMessageId));
+        const messages: ResponseMessage[] = await chatModel.getMessages(firstMessageId, Number(lastMessageId));
 
         res.status(200).json({
             success: true,

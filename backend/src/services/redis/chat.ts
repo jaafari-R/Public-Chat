@@ -1,5 +1,5 @@
 import { RedisBase } from "./base";
-import { Message } from "../../interfaces/message";
+import { ResponseMessage, Message } from "../../interfaces/message";
 
 class ChatModel extends RedisBase {
     constructor() {
@@ -34,15 +34,16 @@ class ChatModel extends RedisBase {
         return isValidMessageId;
     }
 
-    public async getMessages(rangesStart: number, rangeEnd: number): Promise<Message[]> {
+    public async getMessages(rangesStart: number, rangeEnd: number): Promise<ResponseMessage[]> {
         this.verifyConnection();
 
-        const messages: Message[] = [];
+        const messages: ResponseMessage[] = [];
         for(let i = rangesStart; i <= rangeEnd; ++i) {
             const senderId: string = await this.client.HGET(`message:${i}`, 'senderId') || '';
+            const username: string = await this.client.HGET(`user:${senderId}`, 'username') || '';
             const content: string = await this.client.HGET(`message:${i}`, 'content') || '';
             const createdAt: string = await this.client.HGET(`message:${i}`, 'createdAt') || '';
-            if(senderId == '' || content == '' || createdAt == '')
+            if(username == '' || content == '' || createdAt == '')
             {
                 console.log(senderId, content, createdAt);
                 console.log('bad message id:', i);
@@ -50,10 +51,10 @@ class ChatModel extends RedisBase {
             }
 
             messages.push({
-                senderId,
+                username,
                 content,
                 createdAt: new Date(createdAt)
-            } as Message)
+            } as ResponseMessage)
         }
 
         return messages;
