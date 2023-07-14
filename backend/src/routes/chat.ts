@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import { NewMessage } from "../controllers/chat/newMessage";
+import { GetMessages } from "../controllers/chat/getMessages";
 
 class ChatRoutes {
     router: Router;
@@ -10,6 +11,7 @@ class ChatRoutes {
 
     public routes() {
         this.router.post('/chat/send', NewMessage.prototype.create);
+        this.router.get('/chat/get/:lastMessageId', GetMessages.prototype.get30Messages);
 
         return this.router;
     }

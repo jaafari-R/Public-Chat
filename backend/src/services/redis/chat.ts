@@ -21,6 +21,7 @@ class ChatModel extends RedisBase {
 
         const lastMessageId = await this.client.GET('messages_counter');
         const isValidMessageId = Number(lastMessageId) >= messageId;
+        console.log(isValidMessageId)
         return isValidMessageId;
     }
 
@@ -34,7 +35,8 @@ class ChatModel extends RedisBase {
             const createdAt: string = await this.client.HGET(`message:${i}`, 'createdAt') || '';
             if(senderId == '' || content == '' || createdAt == '')
             {
-                console.log('back message id:', i);
+                console.log(senderId, content, createdAt);
+                console.log('bad message id:', i);
                 continue;
             }
 
