@@ -11,6 +11,7 @@ class ChatRoutes {
 
     public routes() {
         this.router.post('/chat/send', NewMessage.prototype.create);
+        this.router.get('/chat/get/', GetMessages.prototype.get30Messages);
         this.router.get('/chat/get/:lastMessageId', GetMessages.prototype.get30Messages);
 
         return this.router;

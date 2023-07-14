@@ -5,7 +5,10 @@ import { Message } from "../../interfaces/message";
 
 export class GetMessages {
     public async get30Messages(req: Request, res: Response) {
-        const { lastMessageId } = req.params;
+        let lastMessageId: string = req.params.lastMessageId || '-1';
+        if(lastMessageId === '-1') {
+            lastMessageId = await chatModel.getLastMessageId();
+        }
 
         /* Check if last message ID is valid*/
         const validMessageId: boolean = await chatModel.isValidMessageId(Number(lastMessageId));

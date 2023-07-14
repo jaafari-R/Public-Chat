@@ -16,8 +16,18 @@ class ChatModel extends RedisBase {
         this.client.HSET(`message:${message_id}`, 'createdAt', createdAt.toString());
     }
 
+    public async getLastMessageId() {
+        this.verifyConnection();
+
+        const lastMessageId: string = await this.client.GET('messages_counter') || '-1';
+        return lastMessageId;
+    }
+
     public async isValidMessageId(messageId: number) {
         this.verifyConnection();
+
+        if(messageId < 0)
+            return false;
 
         const lastMessageId = await this.client.GET('messages_counter');
         const isValidMessageId = Number(lastMessageId) >= messageId;
