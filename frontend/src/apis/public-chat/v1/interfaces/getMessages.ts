@@ -1,6 +1,6 @@
 import { Response } from "./response";
 
-interface Message {
+export interface Message {
     username: string;
     content: string;
     createdAt: Date;

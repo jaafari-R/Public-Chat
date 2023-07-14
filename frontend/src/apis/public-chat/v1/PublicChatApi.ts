@@ -55,7 +55,7 @@ class PublicChatApi {
     /**
      * 
      */
-    public async getMessages(lastMessageId: string | undefined) {
+    public async getMessages(lastMessageId?: string): Promise<MessagesResponse> {
         let response;
         if(!lastMessageId) {
             response = await this.api.get('/chat/get');
@@ -63,7 +63,8 @@ class PublicChatApi {
         else {
             response = await this.api.get(`/chat/get/${lastMessageId}`);
         }
-        return response as unknown as MessagesResponse;
+        console.log(response);
+        return response.data as unknown as MessagesResponse;
     }
 }
 
