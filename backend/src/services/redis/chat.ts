@@ -31,7 +31,6 @@ class ChatModel extends RedisBase {
 
         const lastMessageId = await this.client.GET('messages_counter');
         const isValidMessageId = Number(lastMessageId) >= messageId;
-        console.log(isValidMessageId)
         return isValidMessageId;
     }
 
