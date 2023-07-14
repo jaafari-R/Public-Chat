@@ -15,6 +15,38 @@ class ChatModel extends RedisBase {
         this.client.HSET(`message:${message_id}`, 'content', content);
         this.client.HSET(`message:${message_id}`, 'createdAt', createdAt.toString());
     }
+
+    public async isValidMessageId(messageId: number) {
+        this.verifyConnection();
+
+        const lastMessageId = await this.client.GET('messages_counter');
+        const isValidMessageId = Number(lastMessageId) >= messageId;
+        return isValidMessageId;
+    }
+
+    public async getMessages(rangesStart: number, rangeEnd: number): Promise<Message[]> {
+        this.verifyConnection();
+
+        const messages: Message[] = [];
+        for(let i = rangesStart; i <= rangeEnd; ++i) {
+            const senderId: string = await this.client.HGET(`message:${i}`, 'senderId') || '';
+            const content: string = await this.client.HGET(`message:${i}`, 'content') || '';
+            const createdAt: string = await this.client.HGET(`message:${i}`, 'createdAt') || '';
+            if(senderId == '' || content == '' || createdAt == '')
+            {
+                console.log('back message id:', i);
+                continue;
+            }
+
+            messages.push({
+                senderId,
+                content,
+                createdAt: new Date(createdAt)
+            } as Message)
+        }
+
+        return messages;
+    }
 }
 
 export const chatModel = new ChatModel();
