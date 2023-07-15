@@ -43,10 +43,11 @@ function Chat( props: Username ) {
         <h2>{username}</h2>
       </header>
 
-      {/* Messages Components */}
-      {
-        allMessages?.map((msg) => <p>{msg.content}</p>)
-      }
+      <div className='chat-messages'>
+        {
+          allMessages?.map((msg) => <p>{msg.username}: {msg.content}</p>)
+        }
+      </div>
 
       <form action="">
         <input value={message} onChange={handleChange(setMessage)} type="text" placeholder='Send a message'/>

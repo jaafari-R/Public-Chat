@@ -25,7 +25,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="app">
         <Routes>
           {/* SignUp */}
           <Route path="/signup" element={<Signup loggedUsername={loggedUsername} setLoggedUsername={setLoggedUsername} />} />
