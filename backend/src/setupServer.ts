@@ -1,6 +1,8 @@
 import express, { Express } from 'express';
+import http from 'http';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { Server } from 'socket.io';
 
 import { config } from './config';
 import { Routes } from './routes';
@@ -36,9 +38,28 @@ export class PublicChatServer {
         this.app.use(authMiddleware);
     }
 
-    public start() {
-        this.app.listen(config.PORT, () => {
+    public async start() {
+        const server = http.createServer(this.app);
+        const io = await this.createSocketIO(server);
+        this.startHttpServer(server);
+        this.socketIOConnections(io);
+    }
+
+    private startHttpServer(server: http.Server) {
+        server.listen(config.PORT, () => {
             console.log(`Server is running on port ${config.PORT}`)
+        })
+    }
+
+    private async createSocketIO(server: http.Server) {
+        const io = new Server(server);
+
+        return io
+    }
+
+    private socketIOConnections(io: Server) {
+        io.on('connection', (socket) => {
+            console.log('A user connected.');
         })
     }
 }
