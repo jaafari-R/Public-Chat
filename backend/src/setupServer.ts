@@ -6,7 +6,9 @@ import { Server } from 'socket.io';
 
 import { config } from './config';
 import { Routes } from './routes';
-import { authMiddleware } from './middleware/auth';
+import { authMiddleware, socketIOAuthMiddleware } from './middleware/auth';
+
+import { serialize, parse } from "cookie";
 
 export class PublicChatServer {
     app: Express;
@@ -41,6 +43,7 @@ export class PublicChatServer {
     public async start() {
         const server = http.createServer(this.app);
         const io = await this.createSocketIO(server);
+        this.socketIOSecMiddleware(io);
         this.startHttpServer(server);
         this.socketIOConnections(io);
     }
@@ -52,14 +55,22 @@ export class PublicChatServer {
     }
 
     private async createSocketIO(server: http.Server) {
-        const io = new Server(server);
+        const io = new Server(server, {
+            cookie: true
+        });
 
-        return io
+        return io;
     }
 
     private socketIOConnections(io: Server) {
         io.on('connection', (socket) => {
-            console.log('A user connected.');
+            console.log(`${socket.data.username} has connected to the chat.`);
         })
+    }
+
+    private socketIOSecMiddleware(io: Server) {
+        io.use((socket, next) => {
+            socketIOAuthMiddleware(socket, next);
+        });
     }
 }
